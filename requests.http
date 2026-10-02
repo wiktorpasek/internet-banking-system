@@ -1,0 +1,58 @@
+### Utworzenie Anny (User 1)
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "firstName": "Anna",
+  "lastName": "Nowak",
+  "pesel": "99020212345",
+  "email": "anna.nowak@example.com"
+}
+
+### Utworzenie konta dla Anny (Konto 1)
+POST http://localhost:8080/api/accounts
+Content-Type: application/json
+
+{
+  "accountNumber": "11111111111111111111111111",
+  "balance": 1500.00,
+  "currency": "PLN",
+  "user": {
+    "id": 1
+  }
+}
+
+### Utworzenie Huberta (User 2)
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "firstName": "Hubert",
+  "lastName": "Mazur",
+  "pesel": "12345678901",
+  "email": "hubert.mazur@example.com"
+}
+
+### Utworzenie konta dla Huberta (Konto 2)
+POST http://localhost:8080/api/accounts
+Content-Type: application/json
+
+{
+  "accountNumber": "22222222222222222222222222",
+  "balance": 5000.00,
+  "currency": "PLN",
+  "user": {
+    "id": 2
+  }
+}
+
+### Test przelewu bez pokrycia (z konta 1 na konto 2)
+POST http://localhost:8080/api/transactions
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": 500.00,
+  "title": "Próba oszustwa - test miliona złotych"
+}

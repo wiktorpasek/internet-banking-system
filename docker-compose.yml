@@ -1,0 +1,28 @@
+services:
+  bank-db:
+    image: postgres:15-alpine
+    container_name: bank-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: bank_admin
+      POSTGRES_PASSWORD: securePassword123
+      POSTGRES_DB: internet_banking
+    ports:
+      - "5432:5432"
+    volumes:
+      - bank-db-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - bank-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bank_admin -d internet_banking"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  bank-network:
+    driver: bridge
+
+volumes:
+  bank-db-data:
