@@ -1,11 +1,17 @@
 package com.bank.bankingsystem.dto;
 
 import java.math.BigDecimal;
+import jakarta.validation.constraints.*;
 
 public class TransferRequest {
     private Long senderAccountId;
     private Long receiverAccountId;
+
+    @NotNull(message = "Kwota przelewu jest wymagana")
+    @Positive(message = "Kwota przelewu musi być większa od 0")
     private BigDecimal amount;
+
+    @NotBlank(message = "Tytuł przelewu nie może być pusty")
     private String title;
 
     public long getSenderAccountId() {
@@ -39,4 +45,6 @@ public class TransferRequest {
     public void setTitle(String title) {
         this.title = title;
     }
+
+
 }

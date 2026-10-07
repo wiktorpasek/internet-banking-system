@@ -48,4 +48,10 @@
             return transactionRepository.save(transaction);
 
         }
+        public List<Transaction> getAccountHistory(Long AccountId) {
+            accountRepository.findById(AccountId)
+                    .orElseThrow(() -> new IllegalArgumentException("Konto nie istnieje"));
+
+            return transactionRepository.findBySenderAccountIdOrReceiverAccountId(AccountId, AccountId);
+        }
     }

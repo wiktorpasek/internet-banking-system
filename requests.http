@@ -56,3 +56,17 @@ Content-Type: application/json
   "amount": 500.00,
   "title": "Próba oszustwa - test miliona złotych"
 }
+
+### Pobranie historii konta (Wyciąg Anny)
+GET http://localhost:8080/api/accounts/1/transactions
+
+### Test przelewu minusowego
+POST http://localhost:8080/api/transactions
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": -500.00,
+  "title": "Próba oszustwa -500 zl"
+}
