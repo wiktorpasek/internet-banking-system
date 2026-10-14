@@ -1,5 +1,6 @@
     package com.bank.bankingsystem.service;
 
+    import com.bank.bankingsystem.dto.TransactionResponse;
     import com.bank.bankingsystem.entity.Account;
     import com.bank.bankingsystem.entity.Transaction;
     import com.bank.bankingsystem.repository.AccountRepository;
@@ -23,7 +24,7 @@
         }
 
         @Transactional
-        public Transaction makeTransfer(Long senderAccountId, Long receiverAccountId, BigDecimal amount, String title) {
+            public TransactionResponse makeTransfer(Long senderAccountId, Long receiverAccountId, BigDecimal amount, String title) {
             Account sender = accountRepository.findById(senderAccountId)
                     .orElseThrow(() -> new IllegalArgumentException("Konto nadawcy nie istnieje"));
             Account receiver = accountRepository.findById(receiverAccountId)
@@ -45,13 +46,20 @@
             transaction.setAmount(amount);
             transaction.setTitle(title);
 
-            return transactionRepository.save(transaction);
-
+            Transaction savedTransaction = transactionRepository.save(transaction);
+            return mapToResponse(savedTransaction);
         }
-        public List<Transaction> getAccountHistory(Long AccountId) {
+        public List<TransactionResponse> getAccountHistory(Long AccountId) {
             accountRepository.findById(AccountId)
                     .orElseThrow(() -> new IllegalArgumentException("Konto nie istnieje"));
+            return transactionRepository.findBySenderAccountIdOrReceiverAccountId(AccountId,
+                    AccountId).stream().map(this::mapToResponse).toList();
+        }
+        private TransactionResponse mapToResponse(Transaction transaction) {
 
-            return transactionRepository.findBySenderAccountIdOrReceiverAccountId(AccountId, AccountId);
+            return new TransactionResponse(transaction.getId(),
+                    transaction.getSenderAccount().getId(),transaction.getReceiverAccount().getId(),
+                    transaction.getAmount(),transaction.getTitle(),transaction.getTransactionDate()
+            );
         }
     }

@@ -1,5 +1,6 @@
 package com.bank.bankingsystem.controller;
 
+import com.bank.bankingsystem.dto.TransactionResponse;
 import com.bank.bankingsystem.entity.Account;
 import com.bank.bankingsystem.entity.Transaction;
 import com.bank.bankingsystem.service.AccountService;
@@ -32,7 +33,7 @@ public class AccountController {
     }
 
     @GetMapping("/{id}/transactions")
-    public List<Transaction> getAccountHistory(@PathVariable("id") Long accountId) {
+    public List<TransactionResponse> getAccountHistory(@PathVariable("id") Long accountId) {
         return transactionService.getAccountHistory(accountId);
     }
 }

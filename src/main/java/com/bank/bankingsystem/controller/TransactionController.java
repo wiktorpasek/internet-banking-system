@@ -1,5 +1,6 @@
 package com.bank.bankingsystem.controller;
 
+import com.bank.bankingsystem.dto.TransactionResponse;
 import com.bank.bankingsystem.dto.TransferRequest;
 import com.bank.bankingsystem.entity.Transaction;
 import com.bank.bankingsystem.service.TransactionService;
@@ -20,7 +21,7 @@ public class TransactionController {
     }
 
     @PostMapping
-    public Transaction makeTransaction(@Valid @RequestBody TransferRequest request) {
+    public TransactionResponse makeTransaction(@Valid @RequestBody TransferRequest request) {
         return transactionService.makeTransfer(
                 request.getSenderAccountId(),
                 request.getReceiverAccountId(),
