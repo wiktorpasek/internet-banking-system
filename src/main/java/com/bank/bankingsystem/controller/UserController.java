@@ -1,7 +1,9 @@
 package com.bank.bankingsystem.controller;
 
-import com.bank.bankingsystem.entity.User;
+import com.bank.bankingsystem.dto.CreateUserRequest;
+import com.bank.bankingsystem.dto.UserResponse;
 import com.bank.bankingsystem.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,11 +20,11 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers() {
+    public List<UserResponse> getUsers() {
         return userService.getAllUsers();
     }
     @PostMapping
-    public User addUser(@RequestBody User user){
-        return userService.createUser(user);
+    public UserResponse addUser(@Valid @RequestBody CreateUserRequest request) {
+        return userService.createUser(request);
     }
 }

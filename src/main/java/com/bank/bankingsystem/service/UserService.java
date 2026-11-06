@@ -1,5 +1,7 @@
 package com.bank.bankingsystem.service;
 
+import com.bank.bankingsystem.dto.CreateUserRequest;
+import com.bank.bankingsystem.dto.UserResponse;
 import com.bank.bankingsystem.entity.User;
 import com.bank.bankingsystem.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,11 +20,20 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserResponse> getAllUsers() {
+        return userRepository.findAll().stream().map(user -> new UserResponse(user.getId(),user.getFirstName()
+        ,user.getLastName(),user.getPesel(),user.getEmail(),user.getCreatedAt())).toList();
     }
-    public User createUser(User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+
+    public UserResponse createUser(CreateUserRequest request) {
+        User user = new User();
+        user.setFirstName(request.firstName());
+        user.setLastName(request.lastName());
+        user.setEmail(request.email());
+        user.setPesel(request.pesel());
+        user.setPassword(passwordEncoder.encode(request.password()));
+        User savedUser = userRepository.save(user);
+        return new UserResponse(savedUser.getId(),savedUser.getFirstName(),savedUser.getLastName(),savedUser.getPesel(),
+        savedUser.getEmail(),savedUser.getCreatedAt());
     }
 }
