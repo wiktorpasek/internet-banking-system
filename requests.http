@@ -6,7 +6,8 @@ Content-Type: application/json
   "firstName": "Anna",
   "lastName": "Nowak",
   "pesel": "99020212345",
-  "email": "anna.nowak@example.com"
+  "email": "anna.nowak@example.com",
+  "password": "tajne123"
 }
 
 ### Utworzenie konta dla Anny (Konto 1)
